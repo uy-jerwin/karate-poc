@@ -1,0 +1,5 @@
+todo-app-reactjs/node_modules
+todo-app-api/.idea
+todo-app-api/target
+*.iml
+package-lock.json
