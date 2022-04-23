@@ -1,0 +1,67 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+	}
+}
+
+plugins {
+	id 'java-library'
+	id 'io.spring.dependency-management' version "${dependencyManagementVersion}"
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java-library'
+
+group = 'com.juy.example'
+version = '1.0.0'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+	}
+}
+
+dependencies {
+
+	api 'org.slf4j:slf4j-api'
+	api 'ch.qos.logback:logback-classic'
+	api 'ch.qos.logback:logback-core'
+	api 'org.apache.commons:commons-lang3'
+
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation(platform('org.junit:junit-bom:5.7.0'))
+	testImplementation('org.junit.jupiter:junit-jupiter')
+	testImplementation('com.intuit.karate:karate-junit5:0.9.6')
+	testImplementation('com.intuit.karate:karate-apache:0.9.6')
+}
+
+test {
+	minHeapSize = "1024m"
+	maxHeapSize = "1024m"
+	systemProperty "karate.options", System.properties.getProperty("karate.options")
+	systemProperty "karate.env", System.properties.getProperty("karate.env")
+	outputs.upToDateWhen { false }
+
+	useJUnitPlatform()
+}
+
+sourceSets {
+	test {
+		resources {
+			srcDir file('src/test/java')
+			exclude '**/*.java'
+		}
+	}
+}

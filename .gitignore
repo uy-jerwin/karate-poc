@@ -1,8 +1,9 @@
 **/target
 **/node
 **/node_modules
-spring-boot-react/frontend/build
+**/build
 **/yarn.lock
 **/.idea
+**/.gradle
 
 
